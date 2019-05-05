@@ -15,6 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -44,7 +46,7 @@ public class OperationControllerTest{
     public void shouldReturnHealthpage() throws Exception {
         this.mockMvc.perform(get("/msg")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("test-app-msg")))
-                .andDo(document("home"));
+                .andDo(document("msg"));
     }
 
 
