@@ -1,5 +1,6 @@
 package com.adidas.masterservice.app.controllers;
 
+import com.adidas.masterservice.app.services.OperationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,9 @@ public class OperationController {
     @Autowired
     private Source source;
 
+    @Autowired
+    private OperationService operationService;
+
     @GetMapping("/msg")
     public String getmsg(){
         return msg;
@@ -34,17 +38,8 @@ public class OperationController {
 
     @GetMapping("/olapic")
     public String olapic (){
-
-        String  url ="maven://com.adidas.task:worker:0.0.1-SNAPSHOT";
-        TaskLaunchRequest taskLaunchRequest = new TaskLaunchRequest(url, null, null, null, "olapic-worker");
-
-        for(int  i=0; i< 10; i++) {
-            source.output().send(new GenericMessage<TaskLaunchRequest>(taskLaunchRequest));
-            log.warn("worker:"+ i +" started");
-        }
-        return "success";
+        return operationService.launchWorker();
     }
-
 
     @GetMapping("/workerStart")
     public String workerStart(){

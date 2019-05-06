@@ -12,10 +12,12 @@ import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.cloud.task.configuration.EnableTask;
 import org.springframework.cloud.task.launcher.annotation.EnableTaskLauncher;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableTaskLauncher
 @EnableBinding(Source.class)
+@EnableScheduling
 public class AppApplication {
 
     public static void main(String[] args) {
