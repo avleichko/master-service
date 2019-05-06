@@ -16,7 +16,7 @@ public class OperationServiceImpl implements OperationService {
     @Autowired
     Source source;
 
-    //@Scheduled(cron = "${olap.full.feed.gen.schedule}")
+    @Scheduled(cron = "${olap.full.feed.gen.schedule}")
     @Override
     public String launchWorker() {
         String url = "maven://com.adidas.task:worker:0.0.1-SNAPSHOT";

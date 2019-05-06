@@ -8,6 +8,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.cloud.task.launcher.TaskLaunchRequest;
 import org.springframework.messaging.support.GenericMessage;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,8 +34,6 @@ public class OperationController {
     public String getmsg(){
         return msg;
     }
-
-
 
     @GetMapping("/olapic")
     public String olapic (){
