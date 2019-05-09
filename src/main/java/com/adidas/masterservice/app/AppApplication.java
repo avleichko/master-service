@@ -1,5 +1,9 @@
 package com.adidas.masterservice.app;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
+import io.micrometer.prometheus.PrometheusMeterRegistry;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.deployer.spi.core.AppDeploymentRequest;
@@ -14,6 +18,12 @@ import org.springframework.cloud.task.launcher.annotation.EnableTaskLauncher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.time.Duration;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+
 @SpringBootApplication
 @EnableTaskLauncher
 @EnableBinding(Source.class)
@@ -22,6 +32,31 @@ public class AppApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AppApplication.class, args);
+
+
+     /*   CompositeMeterRegistry compositeMeterRegistry = new CompositeMeterRegistry();
+        compositeMeterRegistry.add(new PrometheusMeterRegistry(null));
+
+        MeterRegistry mr = compositeMeterRegistry;
+        mr.config().commonTags("region", System.getenv("CLOUD_REGION"));
+
+        mr.counter("order-placed").increment(123);
+        mr.gauge("speed", 55);
+        mr.timer("transfer").record(Duration.ofMillis(1200));
+        mr.timer("transfer").record(() -> System.out.println("hello world"));
+*/
     }
 
+    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+
+
+    // new metric aviliable here http://localhost:8080/actuator/metrics/CUSTOM-TASK-METRIC
+    @Bean
+    ApplicationRunner applicationRunner(MeterRegistry meterRegistry) {
+        return args -> {
+            this.executorService.scheduleAtFixedRate(() ->
+                    meterRegistry.timer("CUSTOM-TASK-METRIC")
+                            .record(Duration.ofMillis((long) (Math.random() * 1000))), 500, 500, TimeUnit.MICROSECONDS);
+        };
+    }
 }
