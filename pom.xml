@@ -91,6 +91,13 @@
          <!--   <scope>test</scope>-->
         </dependency>
 
+        <!--micrometer -->
+        <!--need for grafana and prometeus -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
         <!-- swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
