@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,9 @@ public class OperationController {
 
     @Autowired
     KafaProducer  kafaProducer;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     @GetMapping("/msg")
     public String getmsg(){
@@ -60,5 +64,10 @@ public class OperationController {
     @PostMapping(value = "/publish")
     public void sendMessageToKafkaTopic(@RequestParam("message") String message){
         this.kafaProducer.sendMessage(message);
+    }
+
+    @PostMapping(value = "/publishError")
+    public void sendMessageErrorToKafkaTopic(@RequestParam("message") String message){
+        this.kafaProducer.sendMessageError(message);
     }
 }
