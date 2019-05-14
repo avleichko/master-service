@@ -2,6 +2,7 @@ package com.adidas.masterservice.app.controllers;
 
 import com.adidas.masterservice.app.services.KafaProducer;
 import com.adidas.masterservice.app.services.OperationService;
+import com.adidas.masterservice.app.services.OperationServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
