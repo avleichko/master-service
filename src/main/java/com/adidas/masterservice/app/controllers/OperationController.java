@@ -26,7 +26,7 @@ public class OperationController {
     @PostMapping("/run")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void runMigration(@RequestBody WorkerStarterDto workerStarterDto){
-        kafaProducer.sendMessageError(workerStarterDto.toString());
+        kafaProducer.sendMessage(workerStarterDto.toString());
 
         //meterRegistry.gauge("kafka-error-adidas-summary",Tags.of("asd",message),errorKafka.get(message));
         meterRegistry.counter(workerStarterDto.toString(), Tags.empty()).increment(1);
