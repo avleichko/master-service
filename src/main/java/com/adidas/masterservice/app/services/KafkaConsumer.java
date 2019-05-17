@@ -1,6 +1,5 @@
 package com.adidas.masterservice.app.services;
 
-import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tags;
 import lombok.extern.slf4j.Slf4j;
@@ -10,12 +9,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -38,6 +33,12 @@ public class KafkaConsumer {
         log.warn("starting worker");
         final String s = operationService.launchWorker();
         log.warn(s);
+    }
+
+    @KafkaListener(topics = "worker-result", groupId = "group_id")
+    public void consumeResult(String message){
+        log.info(String.format("$$ -> Consumed Message -> %s", message));
+        log.warn("result worker");
     }
 
 

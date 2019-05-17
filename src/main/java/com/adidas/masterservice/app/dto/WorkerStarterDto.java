@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data @AllArgsConstructor @NoArgsConstructor
 public class WorkerStarterDto {
     private String locale;
     private Brand brand;
-    private Date startDate;
-    private Date endDate;
+    // TODO rid of string representation of time
+    private String startDate;
+    private String endDate;
     MigrationFlow flow;
     MigrationType migrationType;
 

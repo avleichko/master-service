@@ -26,9 +26,20 @@ public class OperationController {
     @PostMapping("/run")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void runMigration(@RequestBody WorkerStarterDto workerStarterDto){
-        kafaProducer.sendMessage(workerStarterDto.toString());
+        kafaProducer.sendMessage(toRequestJobMessage(workerStarterDto));
 
         //meterRegistry.gauge("kafka-error-adidas-summary",Tags.of("asd",message),errorKafka.get(message));
         meterRegistry.counter(workerStarterDto.toString(), Tags.empty()).increment(1);
+    }
+
+    private String toRequestJobMessage(WorkerStarterDto workerStarterDto) {
+        return "run job locale "
+                + workerStarterDto.getLocale()
+                + "; brand_code "
+                + workerStarterDto.getBrand().getBrandCode()
+                + "; type inline "
+                + "; start " + workerStarterDto.getStartDate()
+                + "; end " + workerStarterDto.getEndDate()
+                + ";";
     }
 }
