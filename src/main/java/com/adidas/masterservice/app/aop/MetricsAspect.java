@@ -23,9 +23,9 @@ public class MetricsAspect {
     @Autowired
     MeterRegistry meterRegistry;
 
-    @After("execution(* com.adidas.masterservice.app.controllers.*.*(..))")
+    @After("execution(* com.adidas.masterservice.app.controllers.OperationController.*(..))")
     public void before(JoinPoint joinPoint){
         final WorkerStarterDto arg = (WorkerStarterDto)joinPoint.getArgs()[0];
-        meterRegistry.counter("workerLauncher",  Tags.of("workerTaskId", arg.getUuid().toString(), "Time", new Date().toString()) ).increment(1);
+        meterRegistry.counter("workerLauncher",  Tags.of("workerTaskId", arg.getUuid(), "Time", new Date().toString()) ).increment(1);
     }
 }
