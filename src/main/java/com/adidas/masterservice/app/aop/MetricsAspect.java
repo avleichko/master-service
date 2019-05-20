@@ -12,6 +12,8 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Date;
+
 @Aspect
 @Configuration
 @Slf4j
@@ -24,6 +26,6 @@ public class MetricsAspect {
     @After("execution(* com.adidas.masterservice.app.controllers.*.*(..))")
     public void before(JoinPoint joinPoint){
         final WorkerStarterDto arg = (WorkerStarterDto)joinPoint.getArgs()[0];
-        meterRegistry.counter("workerLauncher",  Tags.of("workerTaskId", arg.getUuid().toString()) ).increment(1);
+        meterRegistry.counter("workerLauncher",  Tags.of("workerTaskId", arg.getUuid().toString(), "Time", new Date().toString()) ).increment(1);
     }
 }
