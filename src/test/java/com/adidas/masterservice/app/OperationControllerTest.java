@@ -1,36 +1,60 @@
 package com.adidas.masterservice.app;
 
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
+
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.adidas.masterservice.app.dto.Brand;
+import com.adidas.masterservice.app.dto.MigrationFlow;
+import com.adidas.masterservice.app.dto.MigrationType;
+import com.adidas.masterservice.app.dto.WorkerStarterDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 
 
-//@Import({LocalTaskLauncher.class,LocalDeployerProperties.class, DelegatingResourceLoader.class})
-//@RunWith(SpringRunner.class)
-//@WebMvcTest(AppApplication.class)
-//@AutoConfigureRestDocs(outputDir = "target/snippets")
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@AutoConfigureRestDocs(outputDir = "target/snippets")
 public class OperationControllerTest{
-/*
+
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
-        this.mockMvc.perform(get("/workerStart")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("started")))
-                .andDo(document("home"));
+        WorkerStarterDto workerStarterDto = new WorkerStarterDto();
+        workerStarterDto.setBrand(Brand.ADIDAS);
+        workerStarterDto.setFlow(MigrationFlow.FULL);
+        workerStarterDto.setMigrationType(MigrationType.OLAPIC);
+        this.mockMvc.perform(post("/run")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(asJsonString(workerStarterDto)
+                ))
+                .andDo(print()).andExpect(status().isAccepted())
+                .andDo(document("index"));
     }
 
-    @Test
-    public void shouldReturnHealthpage() throws Exception {
-        this.mockMvc.perform(get("/msg")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("test-app-msg")))
-                .andDo(document("msg"));
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
-
-*/
-
 }
