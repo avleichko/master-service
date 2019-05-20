@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.listener.ListenerExecutionFailedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -55,9 +56,6 @@ public class KafkaConsumer {
 
         final ResponseEntity<ResponseEntity> responseEntityResponseEntity = restTemplate.postForEntity("http://localhost:8086/send", null, ResponseEntity.class);
 
-        meterRegistry.gaugeMapSize("kafka-error-adidas", Tags.of("message", message), errorKafka);
-
-        meterRegistry.gauge("kafka-error-adidas-summary-"+message,Tags.of("asd",message),errorKafka.get(message));
     }
 
 }
