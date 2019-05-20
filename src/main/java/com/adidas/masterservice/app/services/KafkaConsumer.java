@@ -42,7 +42,7 @@ public class KafkaConsumer {
 
 
     @KafkaListener(topics = "dead-letter", groupId = "group_id")
-    public void consumError(String message){
+    public void consumeError(String message){
         log.info(String.format("$$ -> Consumed Message -> %s",message));
 
         final Integer integer = errorKafka.get(message);

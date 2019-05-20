@@ -25,7 +25,7 @@ public class OperationServiceImpl implements OperationService {
     private final Source source;
 
 
-    private final KafaProducer kafaProducer;
+    private final KafkaProducer kafkaProducer;
 
 
     private final AdidasLocales adidasLocales;
@@ -34,9 +34,9 @@ public class OperationServiceImpl implements OperationService {
     private final ReebokLocales reebokLocales;
 
     @Autowired
-    public OperationServiceImpl(Source source, KafaProducer kafaProducer, AdidasLocales adidasLocales, ReebokLocales reebokLocales) {
+    public OperationServiceImpl(Source source, KafkaProducer kafkaProducer, AdidasLocales adidasLocales, ReebokLocales reebokLocales) {
         this.source = source;
-        this.kafaProducer = kafaProducer;
+        this.kafkaProducer = kafkaProducer;
         this.adidasLocales = adidasLocales;
         this.reebokLocales = reebokLocales;
     }
@@ -114,7 +114,7 @@ public class OperationServiceImpl implements OperationService {
         if (workerStarterDto.getMigrationType() == MigrationType.INVENTORY){
             throw new CommonMasterServiceException("functionality is not implemented yet");
         }
-        kafaProducer.sendMessage(toRequestJobMessage(workerStarterDto));
+        kafkaProducer.sendMessage(toRequestJobMessage(workerStarterDto));
         log.warn("event sending end");
     }
 

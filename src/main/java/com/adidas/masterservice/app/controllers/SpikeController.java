@@ -1,6 +1,6 @@
 package com.adidas.masterservice.app.controllers;
 
-import com.adidas.masterservice.app.services.KafaProducer;
+import com.adidas.masterservice.app.services.KafkaProducer;
 import com.adidas.masterservice.app.services.OperationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class SpikeController {
     private OperationService operationService;
 
     @Autowired
-    KafaProducer  kafaProducer;
+    KafkaProducer kafkaProducer;
 
     @Autowired
     RestTemplate restTemplate;
@@ -56,12 +56,12 @@ public class SpikeController {
 
     @PostMapping(value = "/publish")
     public void sendMessageToKafkaTopic(@RequestParam("message") String message){
-        this.kafaProducer.sendMessage(message);
+        this.kafkaProducer.sendMessage(message);
     }
 
     @PostMapping(value = "/publishError")
     public void sendMessageErrorToKafkaTopic(@RequestParam("message") String message){
-        this.kafaProducer.sendMessageError(message);
+        this.kafkaProducer.sendMessageError(message);
     }
 
 }

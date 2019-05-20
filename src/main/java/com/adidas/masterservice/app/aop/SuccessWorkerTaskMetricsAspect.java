@@ -20,7 +20,7 @@ public class SuccessWorkerTaskMetricsAspect {
     @Autowired
     MeterRegistry meterRegistry;
 
-    @After("execution(* com.adidas.masterservice.app.services.KafaProducer.sendMessage(..))")
+    @After("execution(* com.adidas.masterservice.app.services.KafkaProducer.sendMessage(..))")
     public void afterMethod(JoinPoint joinPoint){
         final String arg = joinPoint.getArgs()[0].toString();
         meterRegistry.counter("SuccessWorkerStartTask",  Tags.of("workerTaskId", arg, "Time", new Date().toString()) ).increment(1);

@@ -20,7 +20,7 @@ public class ErrorWorkerTaskMetricsAspect {
     @Autowired
     MeterRegistry meterRegistry;
 
-    @After("execution(* com.adidas.masterservice.app.services.KafaProducer.sendMessageError(..))")
+    @After("execution(* com.adidas.masterservice.app.services.KafkaProducer.sendMessageError(..))")
     public void AfterMethod(JoinPoint joinPoint){
         final String arg = joinPoint.getArgs()[0].toString();
         meterRegistry.counter("ErrorsOnWorkersSide",  Tags.of("ERROR_DESCRIPTION", arg, "Time", new Date().toString()) ).increment(1);
