@@ -8,5 +8,5 @@ import java.util.Date;
 @Data @AllArgsConstructor
 public class ErrorDto {
     Date date;
-    String excptionDetails;
+    String exceptionDetails;
 }
