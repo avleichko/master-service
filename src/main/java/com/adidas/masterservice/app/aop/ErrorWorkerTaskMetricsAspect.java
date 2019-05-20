@@ -1,6 +1,5 @@
 package com.adidas.masterservice.app.aop;
 
-import com.adidas.masterservice.app.dto.WorkerStarterDto;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tags;
 import lombok.extern.slf4j.Slf4j;

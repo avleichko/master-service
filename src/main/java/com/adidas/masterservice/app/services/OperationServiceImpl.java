@@ -7,7 +7,6 @@ import com.adidas.masterservice.app.dto.WorkerStarterDto;
 import com.adidas.masterservice.app.properties.AdidasLocales;
 import com.adidas.masterservice.app.properties.ReebokLocales;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.cloud.task.launcher.TaskLaunchRequest;
@@ -15,7 +14,6 @@ import org.springframework.messaging.support.GenericMessage;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
