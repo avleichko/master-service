@@ -19,15 +19,10 @@ public class OperationController {
 
     private final OperationService operationService;
 
-    private final KafaProducer kafaProducer;
-
-    private final MeterRegistry meterRegistry;
 
     @Autowired
-    public OperationController(OperationService operationService, KafaProducer kafaProducer, MeterRegistry meterRegistry) {
+    public OperationController(OperationService operationService) {
         this.operationService = operationService;
-        this.kafaProducer = kafaProducer;
-        this.meterRegistry = meterRegistry;
     }
 
     @PostMapping(value = "/run", consumes = MediaType.APPLICATION_JSON_VALUE)

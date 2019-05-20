@@ -34,10 +34,8 @@ public class AppApplication {
     // new metric aviliable here http://localhost:8080/actuator/metrics/CUSTOM-TASK-METRIC
     @Bean
     ApplicationRunner applicationRunner(MeterRegistry meterRegistry) {
-        return args -> {
-            this.executorService.scheduleAtFixedRate(() ->
-                    meterRegistry.timer("CUSTOM-TASK-METRIC")
-                            .record(Duration.ofMillis((long) (Math.random() * 1000))), 500, 500, TimeUnit.MICROSECONDS);
-        };
+        return args -> this.executorService.scheduleAtFixedRate(() ->
+                meterRegistry.timer("CUSTOM-TASK-METRIC")
+                        .record(Duration.ofMillis((long) (Math.random() * 1000))), 500, 500, TimeUnit.MICROSECONDS);
     }
 }

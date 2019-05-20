@@ -1,12 +1,10 @@
 package com.adidas.masterservice.app.services;
 
 import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.Tags;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.listener.ListenerExecutionFailedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,7 +24,7 @@ public class KafkaConsumer {
     @Autowired
     MeterRegistry meterRegistry;
 
-    Map<String, Integer> errorKafka = new HashMap<>();
+    private final Map<String, Integer> errorKafka = new HashMap<>();
 
     @KafkaListener(topics = "worker-launcher", groupId = "group_id")
     public void consume(String message){
@@ -55,6 +53,7 @@ public class KafkaConsumer {
         }
 
         final ResponseEntity<ResponseEntity> responseEntityResponseEntity = restTemplate.postForEntity("http://localhost:8086/send", null, ResponseEntity.class);
+        log.info(responseEntityResponseEntity.toString());
 
     }
 

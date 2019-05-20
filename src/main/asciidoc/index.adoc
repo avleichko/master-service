@@ -1,6 +1,6 @@
 = Master service Operation Team cook book
 
-This is an example output for a service running at http://localhost:8080:
+This is an example output for a service running at http://localhost:8080/:
 
 .request
 include::/home/aleksandr/myproj/masterService/target/snippets/index/http-request.adoc[]

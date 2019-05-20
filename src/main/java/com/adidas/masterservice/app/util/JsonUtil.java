@@ -22,7 +22,7 @@ public final class JsonUtil {
     }
 
     //TODO needs to test it
-    public static <T> T JsonToPojo(String jsonString, Class<?> target) throws JsonParseException, JsonMappingException, IOException, ClassNotFoundException {
+    public static <T> T JsonToPojo(String jsonString, Class<?> target) throws IOException, ClassNotFoundException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(jsonString, objectMapper .getTypeFactory().constructCollectionType(List.class, Class.forName(target.getName())));
     }

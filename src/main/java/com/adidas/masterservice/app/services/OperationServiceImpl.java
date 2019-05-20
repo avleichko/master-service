@@ -50,7 +50,7 @@ public class OperationServiceImpl implements OperationService {
         TaskLaunchRequest taskLaunchRequest = new TaskLaunchRequest(url, null, null, null, "olapic-worker");
 
         for (int i = 0; i < 3; i++) {
-            source.output().send(new GenericMessage<TaskLaunchRequest>(taskLaunchRequest));
+            source.output().send(new GenericMessage<>(taskLaunchRequest));
             log.warn("worker:" + i + " started");
         }
         return "success";
@@ -66,7 +66,7 @@ public class OperationServiceImpl implements OperationService {
         locales.putAll(localesReebok);
 
         locales.forEach((key, value) -> {
-            workerStarterDto.setLocale(value.toString());
+            workerStarterDto.setLocale(value);
             if (localesReebok.containsKey(key)){
                 workerStarterDto.setBrand(Brand.REEBOK);
             }else{
