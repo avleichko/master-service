@@ -23,7 +23,7 @@ public class ErrorControllerAdvice {
         this.meterRegistry = meterRegistry;
     }
 
-    @ExceptionHandler({ CommonMasterServiceException.class})
+    @ExceptionHandler({ CommonMasterServiceException.class})                                                               // 400 HTTP code
     public ResponseEntity handleRuntimeException(Exception e) {
         meterRegistry.counter("critical-errors", Tags.of("exception details", e.getMessage())).increment(1);
         final ErrorDto errorDto = new ErrorDto(new Date(), e.getMessage());
