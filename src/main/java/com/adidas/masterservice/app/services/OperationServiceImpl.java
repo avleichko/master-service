@@ -54,6 +54,7 @@ public class OperationServiceImpl implements OperationService {
     @Scheduled(cron = "${olap.full.feed.gen.schedule}")
     @Override
     public void launchWorkerOlapic() {
+        log.warn("OLAPIC full feed started");
         WorkerStarterDto  workerStarterDto = new WorkerStarterDto();
         Map<String, String> locales = adidasLocales.getLocales();
         final Map<String, String> localesReebok = reebokLocales.getLocales();
@@ -70,11 +71,13 @@ public class OperationServiceImpl implements OperationService {
             workerStarterDto.setMigrationType(MigrationType.OLAPIC);
             run(workerStarterDto);
         });
+        log.warn("OLAPIC full feed ended");
     }
 
     @Scheduled(cron = "${bv.full.feed.gen.schedule}")
     @Override
     public void launchWorkerBV() {
+        log.warn("BV full feed started");
         WorkerStarterDto  workerStarterDto = new WorkerStarterDto();
 
         workerStarterDto.setFlow(MigrationFlow.FULL);
@@ -84,12 +87,15 @@ public class OperationServiceImpl implements OperationService {
             workerStarterDto.setBrand(value);
             run(workerStarterDto);
         }
+        log.warn("BV full feed ended");
     }
 
     @Override
     public void run(WorkerStarterDto workerStarterDto) {
+        log.warn("event sending start");
         workerStarterDto.setUuid(UUID.randomUUID().toString());
         kafaProducer.sendMessage(toRequestJobMessage(workerStarterDto));
+        log.warn("event sending end");
     }
 
 
