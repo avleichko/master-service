@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Brand {
     ADIDAS("MDT_BRAND_v_11"),
-    REBOK("MDT_BRAND_v_26");
+    REEBOK("MDT_BRAND_v_26");
 
     private String brandCode;
 }

@@ -68,7 +68,7 @@ public class OperationServiceImpl implements OperationService {
         locales.forEach((key, value) -> {
             workerStarterDto.setLocale(value.toString());
             if (localesReebok.containsKey(key)){
-                workerStarterDto.setBrand(Brand.REBOK);
+                workerStarterDto.setBrand(Brand.REEBOK);
             }else{
                 workerStarterDto.setBrand(Brand.ADIDAS);
             }
