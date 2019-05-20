@@ -55,11 +55,8 @@ public class KafkaConsumer {
 
         final ResponseEntity<ResponseEntity> responseEntityResponseEntity = restTemplate.postForEntity("http://localhost:8086/send", null, ResponseEntity.class);
 
-      // Gauge.builder("errors-kafka", errorKafka, errorKafka.size()).register(meterRegistry);
-
-        //meterRegistry.gaugeMapSize("kafka-error-adidas", Tags.of(message, message), errorKafka);
         meterRegistry.gaugeMapSize("kafka-error-adidas", Tags.of("message", message), errorKafka);
-        //meterRegistry.gauge("kafka-error-adidas-summary",Tags.of("asd",message),errorKafka.get(message));
+
         meterRegistry.gauge("kafka-error-adidas-summary-"+message,Tags.of("asd",message),errorKafka.get(message));
     }
 
