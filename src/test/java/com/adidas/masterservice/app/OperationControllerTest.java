@@ -1,6 +1,7 @@
 package com.adidas.masterservice.app;
 
 
+import static com.adidas.masterservice.app.util.JsonUtil.asJsonString;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,7 +41,7 @@ public class OperationControllerTest{
         WorkerStarterDto workerStarterDto = new WorkerStarterDto();
         workerStarterDto.setBrand(Brand.ADIDAS);
         workerStarterDto.setFlow(MigrationFlow.FULL);
-        workerStarterDto.setMigrationType(MigrationType.OLAPIC);
+        workerStarterDto.setMigrationType(MigrationType.BAZAAR_VOCE);
         this.mockMvc.perform(post("/run")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(asJsonString(workerStarterDto)
@@ -49,12 +50,4 @@ public class OperationControllerTest{
                 .andDo(document("index"));
     }
 
-
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
