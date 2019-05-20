@@ -13,7 +13,7 @@ public class WorkerStarterDto {
     // TODO rid of string representation of time
     private String startDate;
     private String endDate;
-    MigrationFlow flow;
-    MigrationType migrationType;
+    private MigrationFlow flow;
+    private MigrationType migrationType;
 
 }
