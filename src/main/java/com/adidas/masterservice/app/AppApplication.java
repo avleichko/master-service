@@ -26,19 +26,6 @@ public class AppApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AppApplication.class, args);
-
-
-     /*   CompositeMeterRegistry compositeMeterRegistry = new CompositeMeterRegistry();
-        compositeMeterRegistry.add(new PrometheusMeterRegistry(null));
-
-        MeterRegistry mr = compositeMeterRegistry;
-        mr.config().commonTags("region", System.getenv("CLOUD_REGION"));
-
-        mr.counter("order-placed").increment(123);
-        mr.gauge("speed", 55);
-        mr.timer("transfer").record(Duration.ofMillis(1200));
-        mr.timer("transfer").record(() -> System.out.println("hello world"));
-*/
     }
 
     private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
