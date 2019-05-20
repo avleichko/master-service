@@ -17,15 +17,15 @@ import java.util.Date;
 @Aspect
 @Configuration
 @Slf4j
-public class MetricsAspect {
+public class SuccessWorkerTaskMetricsAspect {
 
 
     @Autowired
     MeterRegistry meterRegistry;
 
-    @After("execution(* com.adidas.masterservice.app.controllers.OperationController.*(..))")
-    public void before(JoinPoint joinPoint){
-        final WorkerStarterDto arg = (WorkerStarterDto)joinPoint.getArgs()[0];
-        meterRegistry.counter("workerLauncher",  Tags.of("workerTaskId", arg.getUuid(), "Time", new Date().toString()) ).increment(1);
+    @After("execution(* com.adidas.masterservice.app.services.KafaProducer.sendMessage(..))")
+    public void afterMethod(JoinPoint joinPoint){
+        final String arg = joinPoint.getArgs()[0].toString();
+        meterRegistry.counter("SuccessWorkerStartTask",  Tags.of("workerTaskId", arg, "Time", new Date().toString()) ).increment(1);
     }
 }
