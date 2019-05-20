@@ -1,10 +1,15 @@
 package com.adidas.masterservice.app.aop;
 
+import com.adidas.masterservice.app.dto.MigrationFlow;
+import com.adidas.masterservice.app.dto.WorkerStarterDto;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 @Aspect
@@ -12,10 +17,13 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class MetricsAspect {
 
+
+    @Autowired
+    MeterRegistry meterRegistry;
+
     @After("execution(* com.adidas.masterservice.app.controllers.*.*(..))")
     public void before(JoinPoint joinPoint){
-        //Advice
-        log.error(" Check for user access ");
-        log.error(" Allowed execution for {}", joinPoint);
+        final WorkerStarterDto arg = (WorkerStarterDto)joinPoint.getArgs()[0];
+        meterRegistry.counter("workerLauncher",  Tags.of("workerTaskId", arg.getUuid().toString()) ).increment(1);
     }
 }

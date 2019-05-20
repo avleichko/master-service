@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 public class OperationController {
     @Autowired
@@ -26,6 +28,7 @@ public class OperationController {
     @PostMapping("/run")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void runMigration(@RequestBody WorkerStarterDto workerStarterDto){
+        workerStarterDto.setUuid(UUID.randomUUID().toString());
         kafaProducer.sendMessage(toRequestJobMessage(workerStarterDto));
 
         meterRegistry.counter(workerStarterDto.toString(), Tags.empty()).increment(1);
