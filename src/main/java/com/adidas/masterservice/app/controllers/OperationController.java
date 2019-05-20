@@ -28,7 +28,6 @@ public class OperationController {
     public void runMigration(@RequestBody WorkerStarterDto workerStarterDto){
         kafaProducer.sendMessage(workerStarterDto.toString());
 
-        //meterRegistry.gauge("kafka-error-adidas-summary",Tags.of("asd",message),errorKafka.get(message));
         meterRegistry.counter(workerStarterDto.toString(), Tags.empty()).increment(1);
     }
 }
