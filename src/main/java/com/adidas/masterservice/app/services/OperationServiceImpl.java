@@ -23,20 +23,26 @@ import java.util.UUID;
 @Slf4j
 public class OperationServiceImpl implements OperationService {
 
+    private final Source source;
+
+
+    private final KafaProducer kafaProducer;
+
+
+    private final AdidasLocales adidasLocales;
+
+
+    private final ReebokLocales reebokLocales;
 
     @Autowired
-    Source source;
+    public OperationServiceImpl(Source source, KafaProducer kafaProducer, AdidasLocales adidasLocales, ReebokLocales reebokLocales) {
+        this.source = source;
+        this.kafaProducer = kafaProducer;
+        this.adidasLocales = adidasLocales;
+        this.reebokLocales = reebokLocales;
+    }
 
-    @Autowired
-    private KafaProducer kafaProducer;
-
-    @Autowired
-    AdidasLocales adidasLocales;
-
-    @Autowired
-    ReebokLocales reebokLocales;
-
-    //TODO leave it for time when spring cloud task will be relevant again
+//TODO leave it for time when spring cloud task will be relevant again
 
     @Scheduled(cron = "${olap.full.feed.gen.schedule}")
     @Override
