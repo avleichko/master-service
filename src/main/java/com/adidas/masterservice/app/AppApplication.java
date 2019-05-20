@@ -6,6 +6,7 @@ import io.micrometer.prometheus.PrometheusMeterRegistry;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.deployer.spi.core.AppDeploymentRequest;
 import org.springframework.cloud.deployer.spi.core.RuntimeEnvironmentInfo;
 import org.springframework.cloud.deployer.spi.task.TaskLauncher;
@@ -28,6 +29,7 @@ import java.util.concurrent.TimeUnit;
 @EnableTaskLauncher
 @EnableBinding(Source.class)
 @EnableScheduling
+@EnableConfigurationProperties
 public class AppApplication {
 
     public static void main(String[] args) {

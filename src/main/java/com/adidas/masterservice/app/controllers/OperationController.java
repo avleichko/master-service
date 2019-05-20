@@ -5,6 +5,7 @@ import com.adidas.masterservice.app.services.KafaProducer;
 import com.adidas.masterservice.app.services.OperationService;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tags;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,33 +16,26 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
+@Slf4j
 public class OperationController {
-    @Autowired
-    private OperationService operationService;
+
+    private final OperationService operationService;
+
+    private final KafaProducer kafaProducer;
+
+    private final MeterRegistry meterRegistry;
 
     @Autowired
-    KafaProducer kafaProducer;
-
-    @Autowired
-    MeterRegistry meterRegistry;
+    public OperationController(OperationService operationService, KafaProducer kafaProducer, MeterRegistry meterRegistry) {
+        this.operationService = operationService;
+        this.kafaProducer = kafaProducer;
+        this.meterRegistry = meterRegistry;
+    }
 
     @PostMapping("/run")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void runMigration(@RequestBody WorkerStarterDto workerStarterDto){
-        workerStarterDto.setUuid(UUID.randomUUID().toString());
-        kafaProducer.sendMessage(toRequestJobMessage(workerStarterDto));
-
-        meterRegistry.counter(workerStarterDto.toString(), Tags.empty()).increment(1);
-    }
-
-    private String toRequestJobMessage(WorkerStarterDto workerStarterDto) {
-        return "run job locale "
-                + workerStarterDto.getLocale()
-                + "; brand_code "
-                + workerStarterDto.getBrand().getBrandCode()
-                + "; type inline "
-                + "; start " + workerStarterDto.getStartDate()
-                + "; end " + workerStarterDto.getEndDate()
-                + ";";
+        log.info("starting job with following params: "+ workerStarterDto);
+        operationService.run(workerStarterDto);
     }
 }
