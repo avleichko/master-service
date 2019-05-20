@@ -4,6 +4,7 @@ import com.adidas.masterservice.app.dto.Brand;
 import com.adidas.masterservice.app.dto.MigrationFlow;
 import com.adidas.masterservice.app.dto.MigrationType;
 import com.adidas.masterservice.app.dto.WorkerStarterDto;
+import com.adidas.masterservice.app.exceptions.CommonMasterServiceException;
 import com.adidas.masterservice.app.properties.AdidasLocales;
 import com.adidas.masterservice.app.properties.ReebokLocales;
 import lombok.extern.slf4j.Slf4j;
@@ -78,6 +79,18 @@ public class OperationServiceImpl implements OperationService {
         log.warn("OLAPIC full feed ended");
     }
 
+    @Scheduled(cron = "${inventory.full.feed.gen.schedule}")
+    @Override
+    public void launchWorkerInventory() {
+        log.warn("inventory feed started");
+        WorkerStarterDto  workerStarterDto = new WorkerStarterDto();
+        workerStarterDto.setFlow(MigrationFlow.FULL);
+        workerStarterDto.setMigrationType(MigrationType.INVENTORY);
+        run(workerStarterDto);
+        log.warn("inventory full feed ended");
+    }
+
+
     @Scheduled(cron = "${bv.full.feed.gen.schedule}")
     @Override
     public void launchWorkerBV() {
@@ -98,6 +111,9 @@ public class OperationServiceImpl implements OperationService {
     public void run(WorkerStarterDto workerStarterDto) {
         log.warn("event sending start");
         workerStarterDto.setUuid(UUID.randomUUID().toString());
+        if (workerStarterDto.getMigrationType() == MigrationType.INVENTORY){
+            throw new CommonMasterServiceException("functionality is not implemented yet");
+        }
         kafaProducer.sendMessage(toRequestJobMessage(workerStarterDto));
         log.warn("event sending end");
     }

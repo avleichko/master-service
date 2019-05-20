@@ -11,4 +11,6 @@ public interface OperationService {
     void launchWorkerBV();
 
     void launchWorkerOlapic();
+
+    void launchWorkerInventory();
 }
