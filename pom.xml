@@ -91,6 +91,11 @@
          <!--   <scope>test</scope>-->
         </dependency>
 
+        <!-- spring dev tools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
         <!--micrometer -->
         <!--need for grafana and prometeus -->
         <dependency>
