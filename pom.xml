@@ -159,6 +159,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludeDevtools>false</excludeDevtools>
+                </configuration>
             </plugin>
 
             <!-- required fro /actuator/info -->
