@@ -17,12 +17,16 @@ import java.util.Date;
 public class SuccessWorkerTaskMetricsAspect {
 
 
+    private static final String WORKER_TASK_ID = "workerTaskId";
+    private static final String TIME = "Time";
+    private static final String SUCCESS_WORKER_START_TASK = "SuccessWorkerStartTask";
+
     @Autowired
     MeterRegistry meterRegistry;
 
     @After("execution(* com.adidas.masterservice.app.services.KafkaProducer.sendMessage(..))")
     public void afterMethod(JoinPoint joinPoint){
         final String arg = joinPoint.getArgs()[0].toString();
-        meterRegistry.counter("SuccessWorkerStartTask",  Tags.of("workerTaskId", arg, "Time", new Date().toString()) ).increment(1);
+        meterRegistry.counter(SUCCESS_WORKER_START_TASK,  Tags.of(WORKER_TASK_ID, arg, TIME, new Date().toString()) ).increment(1);
     }
 }

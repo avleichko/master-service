@@ -17,12 +17,16 @@ import java.util.Date;
 public class OperationEndPointMetricsAspect {
 
 
+    private static final String ERROR_DESCRIPTION = "ERROR_DESCRIPTION";
+    private static final String TIME = "Time";
+    private static final String OPERATION_END_POINT_ERROR_METRICS = "OperationEndPointErrorMetrics";
+
     @Autowired
     MeterRegistry meterRegistry;
 
     @After("execution(* com.adidas.masterservice.app.exceptions.ErrorControllerAdvice.*(..)))")
     public void AfterMethod(JoinPoint joinPoint){
         final String arg = joinPoint.getArgs()[0].toString();
-        meterRegistry.counter("OperationEndPointErrorMetrics",  Tags.of("ERROR_DESCRIPTION", arg, "Time", new Date().toString()) ).increment(1);
+        meterRegistry.counter(OPERATION_END_POINT_ERROR_METRICS,  Tags.of(ERROR_DESCRIPTION, arg, TIME, new Date().toString()) ).increment(1);
     }
 }

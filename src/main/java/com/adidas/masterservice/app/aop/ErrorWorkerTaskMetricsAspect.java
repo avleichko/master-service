@@ -17,12 +17,16 @@ import java.util.Date;
 public class ErrorWorkerTaskMetricsAspect {
 
 
+    private static final String ERROR_DESCRIPTION = "ERROR_DESCRIPTION";
+    private static final String TIME = "Time";
+    private static final String ERRORS_ON_WORKERS_SIDE = "ErrorsOnWorkersSide";
+
     @Autowired
     MeterRegistry meterRegistry;
 
     @After("execution(* com.adidas.masterservice.app.services.KafkaProducer.sendMessageError(..))")
     public void AfterMethod(JoinPoint joinPoint){
         final String arg = joinPoint.getArgs()[0].toString();
-        meterRegistry.counter("ErrorsOnWorkersSide",  Tags.of("ERROR_DESCRIPTION", arg, "Time", new Date().toString()) ).increment(1);
+        meterRegistry.counter(ERRORS_ON_WORKERS_SIDE,  Tags.of(ERROR_DESCRIPTION, arg, TIME, new Date().toString()) ).increment(1);
     }
 }
