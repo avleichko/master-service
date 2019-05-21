@@ -98,7 +98,7 @@ public class OperationServiceImpl implements OperationService {
         WorkerStarterDto  workerStarterDto = new WorkerStarterDto();
 
         workerStarterDto.setFlow(MigrationFlow.FULL);
-        workerStarterDto.setMigrationType(MigrationType.BAZAAR_VOCE);
+        workerStarterDto.setMigrationType(MigrationType.BAZAAR_VOICE);
 
         for (Brand value : Brand.values()) {
             workerStarterDto.setBrand(value);

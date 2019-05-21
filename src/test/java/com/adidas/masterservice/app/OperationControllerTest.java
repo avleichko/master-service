@@ -38,7 +38,7 @@ public class OperationControllerTest{
         WorkerStarterDto workerStarterDto = new WorkerStarterDto();
         workerStarterDto.setBrand(Brand.ADIDAS);
         workerStarterDto.setFlow(MigrationFlow.FULL);
-        workerStarterDto.setMigrationType(MigrationType.BAZAAR_VOCE);
+        workerStarterDto.setMigrationType(MigrationType.BAZAAR_VOICE);
         this.mockMvc.perform(post("/run")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(objectToJson(workerStarterDto)
