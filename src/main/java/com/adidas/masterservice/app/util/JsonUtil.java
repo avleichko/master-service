@@ -1,7 +1,5 @@
 package com.adidas.masterservice.app.util;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.hystrix.contrib.javanica.exception.CommandActionExecutionException;
 import lombok.AccessLevel;
