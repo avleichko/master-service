@@ -11,6 +11,11 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Date;
 
+/**
+ *  Metric Describes amount of objects which were sent to dead letter topic
+ * @author Aleksandr Velichko
+ *
+ * */
 @Aspect
 @Configuration
 @Slf4j

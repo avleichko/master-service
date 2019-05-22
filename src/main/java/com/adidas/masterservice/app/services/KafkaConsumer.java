@@ -1,35 +1,27 @@
 package com.adidas.masterservice.app.services;
 
 import com.adidas.masterservice.app.exceptions.CommonMasterServiceException;
-import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.KafkaException;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.listener.ListenerExecutionFailedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.ConnectException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @Slf4j
 public class KafkaConsumer {
 
-    @Autowired
-    OperationService operationService;
+    private final OperationService operationService;
+
+    private final RestTemplate restTemplate;
 
     @Autowired
-    RestTemplate restTemplate;
-
-    @Autowired
-    MeterRegistry meterRegistry;
-
-    private final Map<String, Integer> errorKafka = new HashMap<>();
+    public KafkaConsumer(OperationService operationService, RestTemplate restTemplate) {
+        this.operationService = operationService;
+        this.restTemplate = restTemplate;
+    }
 
     @KafkaListener(topics = "worker-launcher", groupId = "group_id")
     public void consume(String message) {
@@ -56,7 +48,7 @@ public class KafkaConsumer {
         } catch (ResourceAccessException e) {
             log.error("unable to send notification to notification service "+ e.getMessage());
             log.warn("following msg was not sent to notification service : "+ message);
-           // throw new CommonMasterServiceException("Notification service is unaviliable", e);
+            throw new CommonMasterServiceException("unable to send notification to notification service ", e);
         }
     }
 
