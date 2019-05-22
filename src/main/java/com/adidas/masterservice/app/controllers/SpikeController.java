@@ -2,6 +2,8 @@ package com.adidas.masterservice.app.controllers;
 
 import com.adidas.masterservice.app.services.KafkaProducer;
 import com.adidas.masterservice.app.services.OperationService;
+import com.adidas.product.worker.schema.WorkerFailure;
+import com.adidas.product.worker.schema.WorkerLaunch;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.Clock;
+import java.util.Collections;
+import java.util.UUID;
 
 @RestController
 @EnableBinding(Source.class)
@@ -28,10 +34,10 @@ public class SpikeController {
     private OperationService operationService;
 
     @Autowired
-    KafkaProducer kafkaProducer;
+    private KafkaProducer kafkaProducer;
 
     @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     @GetMapping("/msg")
     public String getmsg(){
@@ -56,12 +62,25 @@ public class SpikeController {
 
     @PostMapping(value = "/publish")
     public void sendMessageToKafkaTopic(@RequestParam("message") String message){
-        this.kafkaProducer.sendMessage(message);
+        WorkerLaunch launch = new WorkerLaunch();
+        launch.setId(UUID.randomUUID().toString());
+        launch.setBrand("brand");
+        launch.setConsumer("consumer");
+        launch.setFlow("flow");
+        launch.setLocale(Collections.singletonList("en-US"));
+
+        this.kafkaProducer.sendMessage(launch);
     }
 
     @PostMapping(value = "/publishError")
     public void sendMessageErrorToKafkaTopic(@RequestParam("message") String message){
-        this.kafkaProducer.sendMessageError(message);
+        WorkerFailure failure = new WorkerFailure();
+        failure.setId(UUID.randomUUID().toString());
+        failure.setMillis(Clock.systemUTC().millis());
+        failure.setConsumer("consumer");
+        failure.setException(message);
+
+        this.kafkaProducer.sendMessageError(failure);
     }
 
 }

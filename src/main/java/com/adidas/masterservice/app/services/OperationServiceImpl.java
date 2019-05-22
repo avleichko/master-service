@@ -7,7 +7,9 @@ import com.adidas.masterservice.app.dto.WorkerStarterDto;
 import com.adidas.masterservice.app.exceptions.CommonMasterServiceException;
 import com.adidas.masterservice.app.properties.AdidasLocales;
 import com.adidas.masterservice.app.properties.ReebokLocales;
+import com.adidas.product.worker.schema.WorkerLaunch;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.cloud.task.launcher.TaskLaunchRequest;
@@ -15,8 +17,9 @@ import org.springframework.messaging.support.GenericMessage;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Map;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -110,23 +113,25 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public void run(WorkerStarterDto workerStarterDto) {
         log.warn("event sending start");
-        workerStarterDto.setUuid(UUID.randomUUID().toString());
         if (workerStarterDto.getMigrationType() == MigrationType.INVENTORY){
             throw new CommonMasterServiceException("functionality is not implemented yet");
         }
-        kafkaProducer.sendMessage(toRequestJobMessage(workerStarterDto));
+        kafkaProducer.sendMessage(toLaunchWorkerMessage(workerStarterDto));
         log.warn("event sending end");
     }
 
 
-    private String toRequestJobMessage(WorkerStarterDto workerStarterDto) {
-        return "run job locale "
-                + workerStarterDto.getLocale()
-                + "; brand_code "
-                + workerStarterDto.getBrand().getBrandCode()
-                + "; type inline "
-                + "; start " + workerStarterDto.getStartDate()
-                + "; end " + workerStarterDto.getEndDate()
-                + ";";
+    private WorkerLaunch toLaunchWorkerMessage(WorkerStarterDto dto) {
+        return WorkerLaunch.newBuilder()
+                .setBrand(dto.getBrand().getBrandCode())
+                .setId(dto.getUuid())
+                .setFlow(dto.getFlow().name())
+                .setConsumer(dto.getMigrationType().name())
+                .setLocale(Arrays.stream(dto.getLocale().split(","))
+                        .map(s -> s.replaceAll("[\\[\\]]", StringUtils.EMPTY))
+                        .map(s -> s.replaceAll("\"", StringUtils.EMPTY))
+                        .collect(Collectors.toList()))
+                .build();
+
     }
 }

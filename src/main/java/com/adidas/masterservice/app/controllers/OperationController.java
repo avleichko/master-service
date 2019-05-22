@@ -1,5 +1,6 @@
 package com.adidas.masterservice.app.controllers;
 
+import com.adidas.masterservice.app.dto.MigrationType;
 import com.adidas.masterservice.app.dto.WorkerStarterDto;
 import com.adidas.masterservice.app.services.OperationService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,12 @@ public class OperationController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void runMigration(@RequestBody WorkerStarterDto workerStarterDto){
         log.info("starting job with following params: "+ workerStarterDto);
+
+        if (workerStarterDto.getMigrationType() == MigrationType.OLAPIC) {
+            operationService.launchWorkerOlapic();
+            return;
+        }
+
         operationService.run(workerStarterDto);
     }
 }

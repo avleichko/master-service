@@ -7,12 +7,9 @@ import java.util.UUID;
 
 @Data @AllArgsConstructor @NoArgsConstructor
 public class WorkerStarterDto {
-    private String uuid =  UUID.randomUUID().toString();
+    private final String uuid =  UUID.randomUUID().toString();
     private String locale;
     private Brand brand;
-    // TODO rid of string representation of time
-    private String startDate;
-    private String endDate;
     private MigrationFlow flow;
     private MigrationType migrationType;
 
