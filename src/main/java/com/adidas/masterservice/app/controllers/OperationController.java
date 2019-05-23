@@ -1,6 +1,5 @@
 package com.adidas.masterservice.app.controllers;
 
-import com.adidas.masterservice.app.dto.MigrationType;
 import com.adidas.masterservice.app.dto.WorkerStarterDto;
 import com.adidas.masterservice.app.services.OperationService;
 import lombok.extern.slf4j.Slf4j;
