@@ -29,11 +29,6 @@ public class OperationController {
     public void runMigration(@RequestBody WorkerStarterDto workerStarterDto){
         log.info("starting job with following params: "+ workerStarterDto);
 
-        if (workerStarterDto.getMigrationType() == MigrationType.OLAPIC) {
-            operationService.launchWorkerOlapic();
-            return;
-        }
-
         operationService.run(workerStarterDto);
     }
 }
